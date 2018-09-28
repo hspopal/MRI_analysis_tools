@@ -1,0 +1,39 @@
+#!/bin/bash
+
+function usage {
+   echo ""
+   echo "Creates txt files that contain the anchor seed and destination seed paths."
+   echo "Written by H. Popal - 09/28/18"
+   echo ""
+   echo "usage: create_rois_dtipaths -a <anchor_seed> -s <seed1> -s <seed1> -s <...>"
+   echo ""
+   echo "REQUIRED:"
+   echo "  -a  <anchor seed>  ROI config file. "
+   echo "              The first seed or end of your tract.'"
+   echo "              It is called the anchor seed because this script functions to '"
+   echo "              allows multiple tracts from a single start point (anchor).'"
+   echo "  -s  <seed>  Seed to end the tract. "
+   echo ""
+   echo "OPTIONAL:"
+   echo "  -s  <seed>  Additional seeds to tract with the anchor seed."
+   echo "  -h          Display help."
+   echo ""   
+}
+
+while getopts "a:s:h" option; do
+    #case "${option}"
+        case $option in
+        a) ANCHOR=${OPTARG};;
+        s) SEEDS+=("$OPTARG");;
+        h) usage;
+            exit 0;;
+    esac
+done
+
+
+for val in "${SEEDS[@]}"; do
+    echo "${PWD}/ROIs/${ANCHOR}.nii.gz" > seeds_targets/${ANCHOR}_$val.txt
+    echo "${PWD}/ROIs/$val.nii.gz" >> seeds_targets/${ANCHOR}_$val.txt
+done
+
+
