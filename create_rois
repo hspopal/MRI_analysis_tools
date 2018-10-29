@@ -113,7 +113,7 @@ while read roi; do
     echo ""
 
     #region_nifti $x $y $z -rad $size -val 1 -thresh 0.5 -i ${TEMPLATE}  -o $ROIsdir/$ROIname
-    fname="${ROIsdir}/${ROIname}_reg${size/\./pt}mm";
+    fname="${ROIsdir}/${ROIname}";
     fslmaths ${TEMPLATE} -mul 0 -add 1 -roi $x 1 $y 1 $z 1 0 1 $fname -odt float
     fslmaths $fname -kernel sphere $size -fmean $fname -odt float
     fslmaths ${fname}.nii.gz -bin ${fname}.nii.gz
